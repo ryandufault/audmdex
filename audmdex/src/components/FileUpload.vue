@@ -54,49 +54,100 @@ export default {
         const metadata = await musicMetadata.parseBlob(file);
         
         console.log(' ---- METADATA EXTRACTED ----- ');
-        console.log('Title:', metadata.common.title || 'X');
-        console.log('Artist:', metadata.common.artist || 'X');
-        console.log('Album:', metadata.common.album || 'X');
-        console.log('Year:', metadata.common.year || 'X');
-        console.log('Genre:', metadata.common.genre?.join(', ') || 'X');
+        console.log('Title:', metadata.common.title || ' ');
+        console.log('Artist:', metadata.common.artist || ' ');
+        console.log('Album:', metadata.common.album || ' ');
+        console.log('Year:', metadata.common.year || ' ');
+        console.log('Genre:', metadata.common.genre?.join(', ') || ' ');
         
         // détails techniques
         console.log(' ---- INFOS TECHNIQUES ----- ');
         console.log('Duration:', metadata.format.duration, 'seconds');
-        console.log('Bitrate:', metadata.format.bitrate || 'X');
-        console.log('Sample Rate:', metadata.format.sampleRate || 'X');
-        console.log('Codec:', metadata.format.codec || 'X');
+        console.log('Bitrate:', metadata.format.bitrate || 'N/A');
+        console.log('Sample Rate:', metadata.format.sampleRate || 'N/A');
+        console.log('Codec:', metadata.format.codec || 'N/A');
         
         // processing de la cover
         console.log(' ---- ALBUM ART ----- ');
-        if (metadata.common.picture && metadata.common.picture.length > 0) {
+        if (metadata.common.picture && metadata.common.picture.length > 0) { // si binaire présent alors il y a une image
           const picture = metadata.common.picture[0];
-          console.log('✅ Album art found!');
+          console.log('cover found');
           console.log('Format:', picture.format);
           console.log('Type:', picture.type);
           console.log('Description:', picture.description);
           console.log('Data size:', picture.data.length, 'bytes');
           
-          // créé une url pour la cover, sera utilisée plus tard lors du display
+          // génère une url avec le binaire de la cover
           const blob = new Blob([picture.data], { type: picture.format });
           const imageUrl = URL.createObjectURL(blob);
-          console.log('url créé', imageUrl);
+          console.log('url créé : ', imageUrl);
           
         } else {
-          console.log('pas de cover found');
+          console.log('pas de cover found'); // si pas de binaire présent pour la cover
         }
         
-        // pour l'exploration
+        // debug
         console.log(' ---- FULL METADATA ----- ');
         console.log(metadata);
         
         this.statusMessage = 'metadata extracted, check console';
         
       } catch (error) {
-        console.error(error);
+        console.error('erreur:', error);
         this.statusMessage = 'error extracting metadata';
       }
+      
+    try {
+    const metadata = await musicMetadata.parseBlob(file);
+    
+    // génère une url avec le binaire de la cover
+    let albumArtUrl = null;
+    if (metadata.common.picture && metadata.common.picture.length > 0) {
+      const picture = metadata.common.picture[0];
+      const blob = new Blob([picture.data], { type: picture.format });
+      albumArtUrl = URL.createObjectURL(blob);
     }
+    
+    // data à emit
+    const extractedData = {
+      // infos fichier
+      fileName: file.name,
+      fileSize: (file.size / 1024 / 1024).toFixed(2), // (en mb)
+      fileType: file.type,
+      
+      // infos sur audio
+      title: metadata.common.title || ' ',
+      artist: metadata.common.artist || ' ',
+      album: metadata.common.album || ' ',
+      genre: metadata.common.genre?.join(', ') || ' ',
+      year: metadata.common.year || ' ',
+      
+      // infos techniques
+      duration: metadata.format.duration,
+      bitrate: metadata.format.bitrate,
+      sampleRate: metadata.format.sampleRate,
+      codec: metadata.format.codec,
+      codecProfile: metadata.format.codecProfile || 'N/A',
+      lossless: metadata.format.lossless,
+      numberOfChannels: metadata.format.numberOfChannels,
+      tool: metadata.format.tool || 'N/A',
+      trackGain: metadata.format.trackGain,
+      
+      // cover art
+      albumArtUrl: albumArtUrl,
+      
+      // debug
+      fullMetadata: metadata
+    };
+    // emit au parent (l'app)
+    this.$emit('metadata-extracted', extractedData);
+    this.statusMessage = 'metadata extracted!';
+    
+  } catch (error) {
+    console.error('erreur:', error);
+    this.statusMessage = 'error extracting metadata';
+  }
+}
   }
 }
 </script>
@@ -104,9 +155,9 @@ export default {
 <style scoped>
 .file-container {
   width: 100%;
-  flex: 1;
+  min-height: 59.11vh; /* 530px qd 900px de vh */
   background-color: rgba(0, 0, 0, 0);
-  border: 6px dotted #cfcfcf;
+  border: 0.67vh dotted #cfcfcf; /* 6px qd 900px de vh */
   border-radius: 25px;
   display: flex;
   justify-content: center;
@@ -126,7 +177,7 @@ export default {
 
 .file-container p {
   color: #a1a1a4;
-  font-size: 1.2rem;
+  font-size: 1.2vw;
   transition: color 0.3s ease;
 }
 </style>

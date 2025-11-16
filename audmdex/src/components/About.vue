@@ -10,7 +10,7 @@
         no ads, no tracking, no nonsense. <br><br>just a simple tool that works anywhere, <strong>whenever you need it.</strong>
         </p>
         <br><br><br>
-        <p><a href="https://github.com/ryandufault" target="_blank">made with care by Ryan Dufault</a></p>
+        <p><a href="https://github.com/ryandufault" target="_blank">made with care by ryan dufault</a></p>
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@ function close() {
   left: 0;
   width: 100vw;
   height: 100vh;
-  backdrop-filter: brightness(60%);
+  backdrop-filter: brightness(50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,13 +51,13 @@ function close() {
 .about-header {
     color: #dfdfe4 !important;
     font-weight: normal;
-    margin-bottom: 2rem;
-    font-size: 1.5rem !important;
+    margin-bottom: 2vw;
+    font-size: 1.5vw !important;
 }
 
 .about-container {
   width: 45vw;
-  height: 65vh;
+  height: 55vh;
   background-color: rgb(0, 0, 0, 0.9);
   border-radius: 25px;
   display: flex;
@@ -71,7 +71,7 @@ function close() {
 
 .about-container p {
   color: #a1a1a4;
-  font-size: 1rem;
+  font-size: 1vw;
   transition: color 0.3s ease;
 }
 
@@ -81,7 +81,7 @@ a:hover {
 
 a {
   color: #c3c3c5;
-  font-size: 1rem;
+  font-size: 1vw;
   vertical-align: 15%;
   transition: color 0.3s ease;
 }

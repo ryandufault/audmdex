@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import FileUpload from './components/FileUpload.vue'
 import About from './components/About.vue'
+import DisplayMetadata from './components/DisplayMetadata.vue'
 
 const showAbout = ref(false)
 </script>
@@ -13,9 +14,11 @@ const showAbout = ref(false)
         <h1>audmdex</h1>
         <h2>your go-to audio metadata extractor.</h2>
       </div>
-      <FileUpload/>
+      <FileUpload @metadata-extracted="handleMetadata"/>
+      <!-- open seulement quand il y a des metadata -->
+      <DisplayMetadata v-if="metadataInfo" :metadata="metadataInfo"/>
       <footer>
-        <a class="footerlink" href="https://ryandufault.com" target="_blank">made by Ryan Dufault</a>
+        <a class="footerlink" href="https://ryandufault.com" target="_blank">made by ryan dufault</a>
         <!-- <a href="https://github.com/ryandufault" target="_blank">Github</a>-->
         <p class="footerlink" @click="showAbout = true">about</p>
 
@@ -25,6 +28,30 @@ const showAbout = ref(false)
     <About v-if="showAbout" @close="showAbout = false" />
   </div>
 </template>
+
+<script>
+import FileUpload from './components/FileUpload.vue'
+import DisplayMetadata from './components/DisplayMetadata.vue'
+
+export default {
+  components: {
+    FileUpload,
+    DisplayMetadata
+  },
+  
+  data() {
+    return {
+      metadataInfo: null // store la metadata dynamiquement
+    }
+  },
+  
+  methods: {
+    handleMetadata(data) {
+      this.metadataInfo = data; // store la metadata reçue
+    }
+  }
+}
+</script>
 
 <style>
 * {
@@ -65,31 +92,32 @@ body {
 }
 
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: 2vw;
   text-align: left;
 }
 
 h1 {
   color: #f1f1f4;
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5vw;
+  margin-bottom: 0.5vw;
 }
 
 h2 {
   color: #a1a1a4;
-  font-size: 1rem;
+  font-size: 1vw;
   font-weight: normal;
 }
 
 footer {
-  margin-top: 2rem;
+  margin-top: 2vw;
+  padding-bottom: 12.5vh;
   display: flex;
   justify-content: space-between;
 }
 
 footer a {
   color: #a1a1a4;
-  font-size: 0.85rem;
+  font-size: 0.85vw;
   font-weight: normal;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -101,7 +129,7 @@ footer a {
 
 footer p {
   color: #a1a1a4;
-  font-size: 0.85rem;
+  font-size: 0.85vw;
   font-weight: normal;
   text-decoration: none;
   cursor: pointer;

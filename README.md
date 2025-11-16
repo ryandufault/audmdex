@@ -1,6 +1,8 @@
-# audmdex
+# audmdex [`↗`](https://ryandufault.github.io/audmdex/)
 
-**audmdex** is a lightweight, browser-based tool for quickly inspecting audio metadata.
+**audmdex** is a lightweight, browser-based tool for quickly inspecting audio metadata.  
+  
+available at [**ryandufault.github.io/audmdex**](https://ryandufault.github.io/audmdex/)
 
 ## How It Works
 

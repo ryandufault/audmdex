@@ -13,8 +13,8 @@
 
       <!-- DROPDOWN 1: INFOS SUR AUDIO -->
       <div class="dropdown">
-        <input type="checkbox" id="metadata-toggle-1" class="dropdown-toggle" checked>
-        <label for="metadata-toggle-1" class="dropdown-label">audio infos v</label>
+        <input type="checkbox" id="metadata-toggle-1" class="dropdown-toggle" checked @change="dropdownStates[1] = !dropdownStates[1]">
+        <label for="metadata-toggle-1" class="dropdown-label">audio infos {{ dropdownStates[1] ? 'v' : '>' }}</label>
         <ul class="dropdown-list">
           <li>title : <strong>{{ metadata.title }}</strong></li>
           <li>artists : <strong>{{ metadata.artist }}</strong></li>
@@ -32,8 +32,8 @@
 
       <!-- DROPDOWN 2: INFOS TECHNIQUES -->
       <div class="dropdown">
-        <input type="checkbox" id="metadata-toggle-2" class="dropdown-toggle">
-        <label for="metadata-toggle-2" class="dropdown-label">technical infos v</label>
+        <input type="checkbox" id="metadata-toggle-2" class="dropdown-toggle" @change="dropdownStates[2] = !dropdownStates[2]">
+        <label for="metadata-toggle-2" class="dropdown-label">technical infos {{ dropdownStates[2] ? 'v' : '>' }}</label>
         <ul class="dropdown-list">
           <li>codec : <strong>{{ metadata.codec || 'N/A' }}</strong></li>
           <li>codec profile : <strong>{{ metadata.codecProfile }}</strong></li>
@@ -47,8 +47,8 @@
 
       <!-- DROPDOWN 3: INFOS FICHIER -->
       <div class="dropdown">
-        <input type="checkbox" id="metadata-toggle-3" class="dropdown-toggle" checked>
-        <label for="metadata-toggle-3" class="dropdown-label">file infos v</label>
+        <input type="checkbox" id="metadata-toggle-3" class="dropdown-toggle" checked @change="dropdownStates[3] = !dropdownStates[3]">
+        <label for="metadata-toggle-3" class="dropdown-label">file infos {{ dropdownStates[3] ? 'v' : '>' }}</label>
         <ul class="dropdown-list">
           <li>file name : <strong>{{ metadata.fileName }}</strong></li>
           <li>file extension : <strong>{{ getFileExtension(metadata.fileName) }} ({{ metadata.fileType }})</strong></li>
@@ -72,9 +72,14 @@ export default {
   },
   
   data() {
-    return {
-      isAnimating: false
+  return {
+    isAnimating: false,
+    dropdownStates: {
+      1: true,  // audio infos open
+      2: false, // technical infos closed
+      3: true   // file infos open
     }
+  }
   },
   
   watch: { // watch si la metadata change
@@ -83,7 +88,7 @@ export default {
         // white bg (true)
         this.isAnimating = true;
         
-        // après delay
+        // après delai
         setTimeout(() => {
           this.isAnimating = false;
         }, 300); // delai avant de fade out
@@ -243,6 +248,12 @@ export default {
   border-bottom: 0.12vw solid #cfcfcf;
 }
 
+.dropdown-label:hover {
+  color: #e6e6e7;
+  border-bottom: 0.12vw solid #e6e6e7;
+  transition: border-bottom, color 0.3s ease;
+}
+
 .dropdown-list {
   max-height: 0;
   overflow: hidden;
@@ -267,7 +278,6 @@ export default {
   transition: color 0.3s ease;
 }
 
-/* Style for the strong tags */
 .dropdown-list li strong {
   color: #cfcfcf;
   font-weight: normal;

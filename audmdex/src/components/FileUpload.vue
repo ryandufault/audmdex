@@ -180,4 +180,37 @@ export default {
   font-size: 1.2vw;
   transition: color 0.3s ease;
 }
+
+/* tablet */
+@media (max-width: 1320px) {
+  .file-container {
+    min-height: 40vh;
+    border: 0.59vh dotted #cfcfcf;
+    border-radius: 25px;
+  }
+
+  .file-container p {
+    font-size: 3vw;
+  }
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .file-container {
+    border: 1vw dotted #cfcfcf;
+    border-radius: 15px;
+  }
+
+  .file-container p {
+    font-size: 3.25vw;
+    padding: 10px;
+  }
+}
+
+/* sm mobile */
+@media (max-width: 420px) {
+  .file-container p {
+    font-size: 4vw;
+  }
+}
 </style>

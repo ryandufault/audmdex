@@ -117,10 +117,16 @@ export default {
 
 .file-container:hover {
   border-color: #f1f1f4;
+  color: #c3c3c5;
+}
+
+.file-container:hover p {
+  color: #c3c3c5;
 }
 
 .file-container p {
   color: #a1a1a4;
   font-size: 1.2rem;
+  transition: color 0.3s ease;
 }
 </style>

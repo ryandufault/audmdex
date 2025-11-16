@@ -1,5 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import FileUpload from './components/FileUpload.vue'
+import About from './components/About.vue'
+
+const showAbout = ref(false)
 </script>
 
 <template>
@@ -10,7 +14,15 @@ import FileUpload from './components/FileUpload.vue'
         <h2>your go-to audio metadata extractor.</h2>
       </div>
       <FileUpload/>
+      <footer>
+        <a class="footerlink" href="https://ryandufault.com" target="_blank">made by Ryan Dufault</a>
+        <!-- <a href="https://github.com/ryandufault" target="_blank">Github</a>-->
+        <p class="footerlink" @click="showAbout = true">about</p>
+
+      </footer>
     </div>
+    <!-- open quand true-->
+    <About v-if="showAbout" @close="showAbout = false" />
   </div>
 </template>
 
@@ -67,5 +79,32 @@ h2 {
   color: #a1a1a4;
   font-size: 1rem;
   font-weight: normal;
+}
+
+footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer a {
+  color: #a1a1a4;
+  font-size: 0.85rem;
+  font-weight: normal;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerlink:hover {
+  color: #c3c3c5;
+}
+
+footer p {
+  color: #a1a1a4;
+  font-size: 0.85rem;
+  font-weight: normal;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 </style>
